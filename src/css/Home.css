@@ -1,0 +1,138 @@
+/* src/css/Home.css */
+
+/* General Body Styling */
+body {
+  background-color: #222222;
+  color: #fff;
+  margin: 0;
+  font-family: 'Avenir', 'Lato', sans-serif;
+}
+
+/* Main container for the Home page */
+.home-container {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  padding-bottom: 4rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Styles for loading, error, and no results messages */
+.loading-message,
+.error-message,
+.no-results-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #ef4444; /* Tailwind red-500 */
+}
+
+/* Section for displaying search results */
+.search-results-section {
+  padding: 2rem;
+}
+
+/* Title for search results */
+.search-results-title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;     /* font-bold */
+  margin-bottom: 1.5rem; /* mb-6 */
+  color: #fff;
+}
+
+/* Grid layout for displaying movie cards (used in search results) */
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+  box-sizing: border-box;
+}
+
+/* Carousel sections */
+.carousel-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .movies-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 1rem;
+  }
+}
+
+/* Swiper styles */
+.swiper {
+  padding-bottom: 2rem;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: white;
+}
+
+.swiper-button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Hover effect for movie cards */
+.movie-card {
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments for screens up to 768px (e.g., tablets/larger phones) */
+@media (max-width: 768px) {
+  /* Maintain overall padding from .main-content */
+  
+  .movies-grid {
+    /* Allow cards to shrink more on smaller screens, e.g., to 120px minimum */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjusted min-width */
+    gap: 1rem; /* Slightly reduced gap for more space */
+    padding: 0 1rem; /* Add horizontal padding for the grid itself if it's within a full-width container */
+    /* If the .main-content already provides padding, this specific padding here might be redundant or could be adjusted */
+  }
+}
+
+/* Responsive adjustments for very small screens (e.g., phones below 480px) */
+@media (max-width: 480px) {
+    .movies-grid {
+        /* Allow cards to be even smaller on very narrow phones */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Even smaller min-width */
+        gap: 0.75rem; /* Further reduced gap */
+    }
+
+    .search-results-section,
+    .carousel-section {
+        padding: 1rem; /* Reduce section padding on very small screens */
+    }
+}
+
+/* Mobile specific Swiper padding */
+@media (max-width: 768px) {
+  .swiper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .swiper {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}

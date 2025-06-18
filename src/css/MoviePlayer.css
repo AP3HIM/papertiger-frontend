@@ -1,0 +1,80 @@
+.movie-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border: 4px solid #FFA500;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 1rem 0; /* remove auto horizontal centering */
+}
+
+
+/* Base video.js look */
+.video-js {
+  font-family: 'Avenir', 'Lato', sans-serif;
+  background-color: #000;
+  color: #FFA500;
+}
+
+/* Control bar */
+.video-js .vjs-control-bar {
+  background-color: rgba(0, 0, 0, 0.85);
+  border-top: 2px solid #FFA500;
+}
+
+/* Big Play Button */
+.video-js .vjs-big-play-button {
+  background-color: rgba(255, 165, 0, 0.9);
+  border-radius: 50%;
+  border: none;
+  width: 3em;
+  height: 3em;
+  left: 50%;
+  top: 50%;
+  margin-left: -1.5em;
+  margin-top: -1.5em;
+}
+
+.video-js .vjs-big-play-button:hover {
+  background-color: rgba(255, 140, 0, 0.95);
+}
+
+/* Time & sliders */
+.video-js .vjs-play-progress,
+.video-js .vjs-volume-level {
+  background-color: #FFA500 !important;
+}
+
+.video-js .vjs-slider {
+  background-color: #333;
+}
+
+.video-js .vjs-current-time,
+.video-js .vjs-duration,
+.video-js .vjs-remaining-time {
+  color: #FFA500;
+}
+
+@media (max-width: 768px) {
+  .movie-wrapper {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    border-width: 2px;
+  }
+}
+
+
+.movie-wrapper a {
+  color: orange;
+  text-decoration: underline;
+}
+.movie-wrapper a:hover {
+  text-decoration: none;
+}
+
+.movie-wrapper video {
+  width: 100%;
+  height: 500px; /* or use the `height` prop dynamically */
+  max-height: 80vh;
+}

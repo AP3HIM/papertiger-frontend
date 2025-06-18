@@ -1,0 +1,195 @@
+/* src/css/MovieCard.css */
+
+/* Overall link reset */
+.movie-link {
+  text-decoration: none;
+}
+
+/* Card container with min-height but flexible */
+.movie-card {
+  width: 180px;
+  min-height: 350px; /* minimum consistent height */
+  background-color: #111;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 4px rgba(255, 165, 0, 0.25);
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slight scale and glow on hover */
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.85);
+}
+
+/* Poster: fixed aspect ratio */
+.movie-poster {
+  position: relative;
+  width: 100%;
+  padding-top: calc((3 / 2) * 100%);
+  overflow: hidden;
+  flex-shrink: 0; /* do not shrink */
+}
+
+.poster-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #222;
+}
+
+/* Favorite & watch later buttons */
+.favorite-btn,
+.watchlater-btn {
+  position: absolute;
+  top: 8px;
+  color: white;
+  font-size: 1.3rem;
+  padding: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.favorite-btn {
+  left: 8px;
+}
+
+.watchlater-btn {
+  right: 8px;
+}
+
+.favorite-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.favorite-btn.active, .watchlater-btn.active {
+  color: #FFA500;
+  background-color: rgba(255, 165, 0, 0.2);
+}
+
+/* Movie info container: flexible and spaced */
+.movie-info {
+  padding: 0.6rem 0.75rem 0.75rem;
+  background-color: #1a1a1a;
+  flex-grow: 1; /* take remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.3rem;
+  min-height: 100px; /* ensure space for info */
+}
+
+/* Title: clamp to 2 lines, prevent overflow */
+.movie-title {
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Avenir', 'Lato', sans-serif;
+  margin: 0;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.5em; /* reserve 2 lines height */
+}
+
+/* Year text */
+.movie-year {
+  font-size: 0.85rem;
+  color: #bbb;
+  margin: 0;
+  white-space: nowrap; /* keep on one line */
+}
+
+/* Genre • runtime text */
+.movie-meta {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0;
+  white-space: nowrap; /* keep on one line */
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .movie-card {
+    width: 140px;
+    min-height: 280px;
+  }
+  .favorite-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1.1rem;
+  }
+  .movie-title {
+    font-size: 0.9rem;
+  }
+  .movie-year,
+  .movie-meta {
+    font-size: 0.75rem;
+  }
+}
+
+/* Progress bar styles */
+.progress-bar {
+  height: 4px; 
+  background: #e50914;
+}
+
+.progress-track {
+  height: 4px;
+  background: #444;
+  margin-top: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill  {
+  height: 100%;
+  background: #e50914;
+}
+
+@media (max-width: 768px) {
+  .movie-card {
+    /* Removed fixed width. It will now scale based on the grid column. */
+    /* Set a max-width here if you want to prevent them from becoming too wide on smaller grids */
+    /* max-width: 140px; */ 
+    min-height: 280px;
+  }
+  .favorite-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1.1rem;
+  }
+  .movie-title {
+    font-size: 0.9rem;
+  }
+  .movie-year,
+  .movie-meta {
+    font-size: 0.75rem;
+  }
+}
+
+/* Add an additional breakpoint for very small screens if needed */
+@media (max-width: 480px) {
+    .movie-card {
+        min-height: 250px; /* Even smaller min-height for very small screens */
+    }
+}

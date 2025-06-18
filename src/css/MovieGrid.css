@@ -1,0 +1,179 @@
+/* Landing wrapper */
+.landing-wrapper {
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Main grid */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  width: 100vw;
+  height: 100vh;
+  /* gap: 4px; */
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Grid items - force perfect square and no overflow */
+.movie-grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Logo tiles */
+.logo-tile img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  opacity: 0.75;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo-tile img:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* Center tile 
+.center-tile {
+  background-color: #111;
+  border-radius: 12px;
+  padding: 6px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.center-tile img {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  animation: fadeInZoom 1s ease forwards;
+}
+*/
+.center-tile {
+  background-color: #111;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* remove padding that made logo smaller */
+}
+
+.center-tile img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  animation: fadeInZoom 1s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Flash */
+.white-flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Final CTA screen */
+.full-white-screen {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fdfdfd; /* Slightly off-white for contrast */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10vw;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+@keyframes shimmer {
+  0% { opacity: 0.95; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.015); }
+  100% { opacity: 0.95; transform: scale(1); }
+}
+
+.logo-left img {
+  width: 400px; /* Increased from 120px */
+  max-width: 40vw;
+  animation: shimmer 6s infinite ease-in-out;
+}
+
+.slogan-right {
+  text-align: left;
+  max-width: 400px;
+}
+
+.slogan-right h1 {
+  display: none; /* Hides the heading */
+}
+
+.slogan-right p {
+  font-size: 1.1rem;
+  color: #333;
+  font-family: 'Lato', sans-serif;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.slogan-right button {
+  background-color: #ff5500; /* Cool orange */
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.slogan-right button:hover {
+  background-color: #e64400;
+  transform: scale(1.05);
+}
+
+
+.cta-tagline {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #111;
+  font-family: 'Avenir', sans-serif;
+}

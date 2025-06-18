@@ -1,0 +1,249 @@
+/* src/css/HeroCarousel.css */
+
+.hero-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  /* height: 100vh; Fill full viewport height */
+  margin-top: -2rem; /* Counter .main-content’s top padding */
+  /* margin-bottom: 3rem; */
+  overflow: hidden;
+}
+
+
+.hc-unused-wrapper{
+  position: relative;
+  width: 100vw; /* full viewport width */
+  height: 500px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.hero-overlay-nav-search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* flex-col */
+  align-items: center; /* items-center */
+  padding: 1rem 1.5rem; /* px-6 py-4 */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%); /* bg-gradient-to-b from-black/80 to-transparent */
+  z-index: 20;
+}
+
+.hero-navbar-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* justify-between */
+  align-items: center; /* items-center */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.hero-logo {
+  color: #fff; /* text-white */
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+}
+
+/* Hero Carousel nav links: unify with navbar font size */
+
+.hero-nav-links {
+  font-size: 1.125rem; /* 18px approx, slightly bigger */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-nav-link,
+.hero-nav-button {
+  font-size: 1.125rem; /* ensure buttons & links match */
+  color: #FFA500;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Navbar links - set to same font size */
+
+.navbar-links > * {
+  font-size: 1.125rem; /* match hero nav font size */
+}
+
+.nav-link {
+  font-size: 1.125rem; /* override previous 1rem */
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Responsive: keep hero and navbar font sizes consistent on mobile too */
+
+@media (max-width: 768px) {
+  .navbar-links > *,
+  .nav-link,
+  .hero-nav-link,
+  .hero-nav-button {
+    font-size: 1rem; /* slightly smaller on mobile */
+  }
+}
+
+
+.hero-search-form {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 48rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+
+.hero-search-input {
+  flex-grow: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: rgba(75, 85, 99, 0.5); /* semi-transparent gray */
+  color: #fff;
+  border: 1px solid var(--accent-orange);
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 165, 0, 0.7); /* neon-orange glow */
+  transition: box-shadow 0.3s ease;
+}
+
+.hero-search-input:focus {
+  border-color: var(--hover-orange);
+  box-shadow: 0 0 12px rgba(255, 165, 0, 1); /* brighter glow on focus */
+}
+
+.hero-search-input::placeholder {
+  color: #9ca3af; /* placeholder-gray-400 */
+}
+
+.hero-search-input:focus {
+  border-color: #fbbf24; /* focus:border-orange-400 */
+}
+
+.hero-search-button {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  background-color: #f97316; /* bg-orange-500 */
+  color: #fff; /* text-white */
+  border-radius: 0.25rem; /* rounded */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out; /* hover:bg-orange-600 transition-colors */
+}
+
+.hero-search-button:hover {
+  background-color: #ea580c; /* hover:bg-orange-600 */
+}
+
+.hero-genre-select {
+  padding: 0.5rem 0.75rem; /* p-2 */
+  border-radius: 0.25rem; /* rounded */
+  background-color: #4b5563; /* bg-gray-700 */
+  color: #fff; /* text-white */
+  border: 1px solid #4b5563; /* border border-gray-600 */
+  outline: none; /* focus:outline-none */
+}
+
+.hero-genre-select:focus {
+  border-color: #fbbf24; /* focus:border-orange-400 */
+}
+
+/* Swiper specific styles for hero carousel */
+.hero-swiper {
+  height: 100%; /* h-full */
+}
+
+.hero-slide-content {
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+  position: relative;
+  border-radius: 0; /* make sure there's no rounding cutting off corners */
+}
+
+
+.hero-movie-details {
+  background-color: rgba(0, 0, 0, 0.6); /* bg-black bg-opacity-60 */
+  padding: 1rem; /* p-4 */
+  border-radius: 0.25rem; /* rounded */
+  max-width: 32rem; /* max-w-xl (original was 2xl, adjust as needed) */
+  z-index: 10;
+}
+
+.hero-movie-title {
+  font-family: 'Avenir', 'Lato', sans-serif;
+  color: var(--accent-orange);
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700; /* font-bold */
+}
+
+.hero-movie-overview {
+  color: #d1d5db; /* text-gray-300 */
+  margin-top: 0.5rem; /* mt-2 */
+  /* For line-clamp-3, you'll need a polyfill or manually set max-height with overflow hidden */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* This is the problematic line, but should be OK with the display properties */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Ensures '...' for clamped text */
+}
+
+.hero-more-info-btn {
+  margin-top: 1rem; /* mt-4 */
+  display: inline-block; /* inline-block */
+  padding: 0.5rem 1.5rem; /* px-6 py-2 */
+  background-color: #f97316; /* bg-orange-500 */
+  color: #fff; /* text-white */
+  border-radius: 0.25rem; /* rounded */
+  text-decoration: none; /* IMPORTANT: Remove underline from this button link */
+  transition: background-color 0.2s ease-in-out; /* hover:bg-orange-600 transition-colors */
+}
+
+.hero-more-info-btn:hover {
+  background-color: #ea580c; /* hover:bg-orange-600 */
+}
+
+.hero-genre-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #111;
+  border: 1px solid #333;
+  min-width: 160px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.hero-genre-dropdown:hover .hero-dropdown-content {
+  display: block;
+}
+
+.hero-dropdown-item {
+  color: white;
+  padding: 0.75rem 1rem;
+  display: block;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.hero-dropdown-item:hover {
+  background-color: #222;
+}

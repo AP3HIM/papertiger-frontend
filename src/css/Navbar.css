@@ -1,0 +1,132 @@
+.navbar {
+  background-color: #000000;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-links {
+  gap: 2rem;
+  display:inline-block;       /* keeps width auto */
+  padding:0 .75rem;
+  white-space:nowrap;         /* no wrap, no collapse */
+}
+
+.nav-link {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display:inline-block;       /* keeps width auto */
+  padding:0 .75rem;
+  white-space:nowrap;         /* no wrap, no collapse */
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent-orange);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-links {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+  }
+}
+
+.genre-dropdown {
+  position: relative;
+  display: inline-block;
+  color: orange; /* match other nav links */
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.genre-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #111;
+  border: 1px solid #333;
+  min-width: 160px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.genre-dropdown:hover .dropdown-content {
+  display: block;
+  color: var(--accent-orange);
+}
+
+.dropdown-item {
+  color: white;
+  padding: 0.75rem 1rem;
+  display: block;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+  background-color: #222;
+  color: var(--accent-orange);
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent-orange);
+}
+
+nav a, nav button {
+  color: var(--accent-orange);
+}
+
+nav a:active,
+nav a:focus,
+nav button:active,
+nav button:focus {
+  color: #ffa500; /* or just keep white */
+}
+
+.logo {
+  height: 40px;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  color: var(--accent-orange);
+}
+
