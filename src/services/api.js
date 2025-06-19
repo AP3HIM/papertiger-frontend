@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────
 //  src/services/api.js   (access-token only)
 // ─────────────────────────────────────────
-export const BASE_API_URL = "http://127.0.0.1:8000/api";
+export const BASE_API_URL = "https://paper-tiger-backend.onrender.com/api";
 import { toast } from "react-toastify"
 /* one key only */
 const ACCESS_KEY = "access_token";
