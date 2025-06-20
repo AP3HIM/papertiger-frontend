@@ -11,34 +11,34 @@
 
 
 /* Base video.js look */
-.video-js {
-  font-family: 'Avenir', 'Lato', sans-serif;
-  background-color: #000;
-  color: #FFA500;
-}
-
-/* Control bar */
-.video-js .vjs-control-bar {
-  background-color: rgba(0, 0, 0, 0.85);
-  border-top: 2px solid #FFA500;
-}
-
-/* Big Play Button */
+/* Make play button a normal triangle in center */
 .video-js .vjs-big-play-button {
-  background-color: rgba(255, 165, 0, 0.9);
+  background: transparent;
+  border: 3px solid #FFA500;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: none;
-  width: 3em;
-  height: 3em;
+  font-size: 2em;
+  color: #FFA500;
   left: 50%;
   top: 50%;
-  margin-left: -1.5em;
-  margin-top: -1.5em;
+  margin-left: -30px;
+  margin-top: -30px;
+  transition: all 0.3s ease;
 }
 
 .video-js .vjs-big-play-button:hover {
-  background-color: rgba(255, 140, 0, 0.95);
+  background-color: rgba(255, 165, 0, 0.3);
+  transform: scale(1.1);
 }
+
+/* Ensure the control bar always appears */
+.video-js .vjs-control-bar {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: none !important;
+}
+
 
 /* Time & sliders */
 .video-js .vjs-play-progress,
@@ -55,6 +55,20 @@
 .video-js .vjs-remaining-time {
   color: #FFA500;
 }
+
+.video-watermark {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.7;
+  z-index: 10;
+}
+
+.video-watermark img {
+  width: 80px;
+  height: auto;
+}
+
 
 @media (max-width: 768px) {
   .movie-wrapper {
