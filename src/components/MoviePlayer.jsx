@@ -155,6 +155,9 @@ export default function MoviePlayer({ url, movieId, height = "500px" }) {
 
   return (
     <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem" }}>
+      <div className="video-watermark">
+        <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
+      </div>
       <div data-vjs-player style={{ maxWidth: "100%", height }}>
         <video
           ref={videoRef}
