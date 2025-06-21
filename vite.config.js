@@ -2,9 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from "vite-plugin-svgr"
 import { resolve } from 'path'
-import fs from 'fs'
-import path from 'path'
+import { copyFileSync, existsSync } from 'fs'
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
@@ -12,10 +12,14 @@ export default defineConfig({
     {
       name: 'copy-redirects',
       closeBundle() {
-        const from = path.resolve(__dirname, 'public/_redirects')
-        const to = path.resolve(__dirname, 'dist/_redirects')
-        fs.copyFileSync(from, to)
-        console.log('✅ Copied _redirects to dist/')
+        const from = resolve('public/_redirects')
+        const to = resolve('dist/_redirects')
+        if (existsSync(from)) {
+          copyFileSync(from, to)
+          console.log('✅ Copied _redirects to dist/')
+        } else {
+          console.warn('⚠️  _redirects file not found in /public')
+        }
       }
     }
   ],
