@@ -39,6 +39,8 @@ export const MovieProvider = ({ children }) => {
   const [error,   setError]               = useState(null);
   const [searchTerm, setSearchTerm]       = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [token, setToken] = useState(null);
+
 
   /* auth & side lists */
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -129,16 +131,16 @@ export const MovieProvider = ({ children }) => {
   useEffect(() => {
     loadMovies(); loadFeatured();
     (async () => {
-      const access  = localStorage.getItem("access_token");
+      const access = localStorage.getItem("access_token");
 
-      /* 1 – happy path → access token still OK */
       if (access && tokenIsValid(access)) {
+        setToken(access);         // ← Save token in context
         setIsLoggedIn(true);
-        return;
+      } else {
+        setToken(null);
+        setIsLoggedIn(false);
       }
-       else {
-        setIsLoggedIn(false);        // no usable tokens at all
-      }
+
     })();
     
   }, [loadMovies, loadFeatured]);
@@ -201,7 +203,7 @@ export const MovieProvider = ({ children }) => {
 
     favorites, isFavorite, addToFavorites, removeFromFavorites,
     watchLater, isInWatchLater, addToWatchLater, removeFromWatchLater,
-    progress,   updateProgress,
+    progress,   updateProgress, token, 
   };
 
   return <MovieContext.Provider value={value}>{children}</MovieContext.Provider>;
