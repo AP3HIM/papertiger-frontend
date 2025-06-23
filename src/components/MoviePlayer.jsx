@@ -5,6 +5,8 @@ import "video.js/dist/video-js.css";
 import ReactPlayer from "react-player";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css";
+import "videojs-skin-city";
+
 
 export default function MoviePlayer({ url, movieId, height = "500px" }) {
   const videoRef = useRef(null);
@@ -154,14 +156,14 @@ export default function MoviePlayer({ url, movieId, height = "500px" }) {
   }
 
   return (
-    <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem" }}>
+    <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem", position: "relative" }}>
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
       <div data-vjs-player style={{ maxWidth: "100%", height }}>
         <video
           ref={videoRef}
-          className="video-js vjs-big-play-centered"
+          className="video-js vjs-skin-city vjs-big-play-centered"
           playsInline
           style={{ width: "100%", height }}
         />
