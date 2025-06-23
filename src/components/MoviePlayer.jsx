@@ -7,7 +7,7 @@ import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css";
 
 
-export default function MoviePlayer({ url, movieId, height = "500px" }) {
+export default function MoviePlayer({ url, movieId }) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const reactPlayerRef = useRef(null);
@@ -30,6 +30,9 @@ export default function MoviePlayer({ url, movieId, height = "500px" }) {
       autoplay: false,
       preload: "metadata",
       fluid: true,
+      responsive: true,
+      aspectRatio: "16:9", // Ensures proper resizing
+      inactivityTimeout: 0, // Disable autohide of controls
       controlBar: {
         volumePanel: { inline: false },
         pictureInPictureToggle: false,
@@ -41,6 +44,7 @@ export default function MoviePlayer({ url, movieId, height = "500px" }) {
         ],
       },
     });
+
 
     playerRef.current = player;
 
@@ -159,7 +163,7 @@ export default function MoviePlayer({ url, movieId, height = "500px" }) {
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
-      <div data-vjs-player style={{ maxWidth: "100%", height }}>
+      <div data-vjs-player style={{ width: "100%" }}>
         <video
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
