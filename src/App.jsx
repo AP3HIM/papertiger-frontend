@@ -20,6 +20,7 @@ import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import CopyrightPolicy from "./pages/legal/CopyrightPolicy";
 import Footer from "./components/Footer";
 import LandingScreen from "./components/LandingScreen";
+import MakeMeStaff from "./pages/MakeMeStaff";
 
 function RoutesWithNav() {
   const { pathname } = useLocation();
@@ -49,6 +50,7 @@ function RoutesWithNav() {
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/copyright" element={<CopyrightPolicy />} />
+          <Route path="/make-me-staff" element={<MakeMeStaff />} />
         </Routes>
         <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
       </main>
