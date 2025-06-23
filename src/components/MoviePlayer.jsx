@@ -124,7 +124,7 @@ export default function MoviePlayer({ url, movieId }) {
           playing={reactPlaying}
           controls
           width="100%"
-          height={height}
+          height="100%"
           config={{
             file: {
               attributes: {
@@ -157,6 +157,7 @@ export default function MoviePlayer({ url, movieId }) {
       </div>
     );
   }
+
 
   return (
     <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem", position: "relative" }}>
