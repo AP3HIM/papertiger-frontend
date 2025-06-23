@@ -169,7 +169,7 @@ export default function MoviePlayer({ url, movieId }) {
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
           playsInline
-          style={{ width: "100%", height }}
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
     </div>
