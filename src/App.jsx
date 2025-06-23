@@ -21,6 +21,7 @@ import CopyrightPolicy from "./pages/legal/CopyrightPolicy";
 import Footer from "./components/Footer";
 import LandingScreen from "./components/LandingScreen";
 import MakeMeStaff from "./pages/MakeMeStaff";
+import MakeMeSuperuser from "./pages/MakeMeSuperuser";
 
 function RoutesWithNav() {
   const { pathname } = useLocation();
@@ -51,6 +52,7 @@ function RoutesWithNav() {
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/copyright" element={<CopyrightPolicy />} />
           <Route path="/make-me-staff" element={<MakeMeStaff />} />
+          <Route path="/make-me-superuser" element={<MakeMeSuperuser />} />
         </Routes>
         <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
       </main>
