@@ -5,7 +5,6 @@ import "video.js/dist/video-js.css";
 import ReactPlayer from "react-player";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css";
-import "videojs-skin-city";
 
 
 export default function MoviePlayer({ url, movieId, height = "500px" }) {
