@@ -130,20 +130,17 @@
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .movie-card {
-    width: 140px;
-    min-height: 280px;
+    width: 160px;
+    min-height: 300px;
   }
-  .favorite-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 1.1rem;
-  }
+
   .movie-title {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
+
   .movie-year,
   .movie-meta {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -209,4 +206,37 @@
     padding: 0.5rem;
   }
 
+}
+
+@media (max-width: 480px) {
+  .movie-card {
+    width: 100%;
+    max-width: 320px;
+    min-height: 260px;
+    margin: 0 auto;
+  }
+
+  .movie-title {
+    font-size: 1rem;
+  }
+
+  .movie-year,
+  .movie-meta {
+    font-size: 0.85rem;
+  }
+
+  .poster-img {
+    object-fit: cover;
+  }
+
+  .movie-info {
+    padding: 0.6rem;
+  }
+
+  .favorite-btn,
+  .watchlater-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 1.1rem;
+  }
 }
