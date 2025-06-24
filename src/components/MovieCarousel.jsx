@@ -18,11 +18,14 @@ export default function MovieCarousel({
 
       <Swiper
         breakpoints={{
-          0: { slidesPerView: 1.1 },       // <480px
+          0: { slidesPerView: 1.1 },       // phones
           480: { slidesPerView: 1.5 },     // small phones
+          640: { slidesPerView: 2.5 },     // tablets
+          768: { slidesPerView: 3.5 },     // small laptops
+          1024: { slidesPerView: 5.5 },    // desktops
+          1280: { slidesPerView: 6.5 },    // large desktops
         }}
-        slidesPerView={6}
-        spaceBetween={4}
+        spaceBetween={10}
         navigation
         modules={[FreeMode, Navigation]}
         className="movie-swiper"
