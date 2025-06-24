@@ -1,4 +1,14 @@
 // src/App.jsx
+import ReactGA from "react-ga4";
+
+const GA_ID = process.env.REACT_APP_GA_ID;
+if (GA_ID) {
+  ReactGA.initialize(GA_ID);
+  ReactGA.send("pageview");
+}
+
+
+
 import "./css/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { MovieProvider } from "./contexts/MovieContext";
