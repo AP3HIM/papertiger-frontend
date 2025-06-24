@@ -247,3 +247,22 @@
 .hero-dropdown-item:hover {
   background-color: #222;
 }
+
+@media (max-width: 480px) {
+  .hero-navbar-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .hero-nav-link, .hero-nav-button {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
