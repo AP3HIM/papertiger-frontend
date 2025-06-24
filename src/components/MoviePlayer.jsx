@@ -5,6 +5,7 @@ import "video.js/dist/video-js.css";
 import ReactPlayer from "react-player";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css";
+import { toast } from "react-toastify";
 
 
 export default function MoviePlayer({ url, movieId }) {
@@ -112,6 +113,7 @@ export default function MoviePlayer({ url, movieId }) {
     } catch (err) {
       console.warn("Failed to dispose player:", err);
     }
+    toast.warn("Video failed to load properly. Try refreshing the page.");
     if (mountedRef.current) setUseFallback(true);
   }
 
