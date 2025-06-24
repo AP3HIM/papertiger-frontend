@@ -17,6 +17,12 @@ export default function MovieCarousel({
       {title && <h2 className="movie-carousel-title">{title}</h2>}
 
       <Swiper
+        breakpoints={{
+          0: { slidesPerView: 1.1 },       // <480px
+          480: { slidesPerView: 1.5 },     // small phones
+          640: { slidesPerView: 2.3 },     // tablets
+          1024: { slidesPerView: 5.5 },    // desktops
+        }}
         slidesPerView={6}
         spaceBetween={4}
         navigation
