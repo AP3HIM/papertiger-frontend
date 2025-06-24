@@ -6,9 +6,9 @@ import ReactPlayer from "react-player";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga4";
 
-
-export default function MoviePlayer({ url, movieId }) {
+export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const reactPlayerRef = useRef(null);
@@ -16,6 +16,7 @@ export default function MoviePlayer({ url, movieId }) {
   const throttleRef = useRef(0);
   const fallbackTimeoutRef = useRef(null);
   const mountedRef = useRef(true);
+  const hasTrackedPlayRef = useRef(false);
 
   const { updateProgress, progress } = useMovieContext();
   const [useFallback, setUseFallback] = useState(false);
@@ -32,8 +33,8 @@ export default function MoviePlayer({ url, movieId }) {
       preload: "metadata",
       fluid: true,
       responsive: true,
-      aspectRatio: "16:9", // Ensures proper resizing
-      inactivityTimeout: 0, // Disable autohide of controls
+      aspectRatio: "16:9",
+      inactivityTimeout: 0,
       controlBar: {
         volumePanel: { inline: false },
         pictureInPictureToggle: false,
@@ -45,7 +46,6 @@ export default function MoviePlayer({ url, movieId }) {
         ],
       },
     });
-
 
     playerRef.current = player;
 
@@ -81,6 +81,17 @@ export default function MoviePlayer({ url, movieId }) {
       }
     });
 
+    player.on("play", () => {
+      if (!hasTrackedPlayRef.current) {
+        ReactGA.event({
+          category: "Video",
+          action: "Play",
+          label: movieTitle,
+        });
+        hasTrackedPlayRef.current = true;
+      }
+    });
+
     player.on("pause", () => {
       throttleRef.current = 0;
     });
@@ -102,7 +113,7 @@ export default function MoviePlayer({ url, movieId }) {
         player.dispose();
       }
     };
-  }, [url, movieId, useFallback]);
+  }, [url, movieId, useFallback, movieTitle]);
 
   function cleanupAndFallback() {
     try {
@@ -148,6 +159,16 @@ export default function MoviePlayer({ url, movieId }) {
               updateProgress(movieId, Math.floor(playedSeconds));
             }
           }}
+          onStart={() => {
+            if (!hasTrackedPlayRef.current) {
+              ReactGA.event({
+                category: "Video",
+                action: "Play",
+                label: movieTitle,
+              });
+              hasTrackedPlayRef.current = true;
+            }
+          }}
           onPause={() => {
             throttleRef.current = 0;
           }}
@@ -159,7 +180,6 @@ export default function MoviePlayer({ url, movieId }) {
       </div>
     );
   }
-
 
   return (
     <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem", position: "relative" }}>
