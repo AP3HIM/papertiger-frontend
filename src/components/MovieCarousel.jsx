@@ -17,18 +17,18 @@ export default function MovieCarousel({
       {title && <h2 className="movie-carousel-title">{title}</h2>}
 
       <Swiper
-        breakpoints={{
-          0: { slidesPerView: 1.1 },       // phones
-          480: { slidesPerView: 1.5 },     // small phones
-          640: { slidesPerView: 2.5 },     // tablets
-          768: { slidesPerView: 3.5 },     // small laptops
-          1024: { slidesPerView: 5.5 },    // desktops
-          1280: { slidesPerView: 6.5 },    // large desktops
-        }}
-        spaceBetween={10}
+        spaceBetween={4}
         navigation
         modules={[FreeMode, Navigation]}
         className="movie-swiper"
+        slidesPerView={6} // Default for desktops and above
+        breakpoints={{
+          0: { slidesPerView: 1.1 },       // mobile
+          480: { slidesPerView: 1.5 },     // small phones
+          640: { slidesPerView: 2.2 },     // small tablets
+          768: { slidesPerView: 3.5 },     // tablets
+          // Above 768px = fallback to slidesPerView={6}
+        }}
       >
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} className="movie-carousel-slide">
