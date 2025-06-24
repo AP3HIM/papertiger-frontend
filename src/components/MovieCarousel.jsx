@@ -21,15 +21,15 @@ export default function MovieCarousel({
         navigation
         modules={[FreeMode, Navigation]}
         className="movie-swiper"
-        slidesPerView={6} // Default for desktops and above
         breakpoints={{
-          0: { slidesPerView: 1.1 },       // mobile
-          480: { slidesPerView: 1.5 },     // small phones
-          640: { slidesPerView: 2.2 },     // small tablets
-          768: { slidesPerView: 3.5 },     // tablets
-          // Above 768px = fallback to slidesPerView={6}
+          0: { slidesPerView: 1.2 },      // tiny phones
+          480: { slidesPerView: 1.5 },    // small phones
+          640: { slidesPerView: 2.5 },    // tablets
+          768: { slidesPerView: 3.5 },    // small laptops
+          1024: { slidesPerView: 6 },     // real desktops (exactly like before)
         }}
       >
+
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} className="movie-carousel-slide">
             <Card movie={movie} />
