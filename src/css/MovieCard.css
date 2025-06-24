@@ -193,3 +193,20 @@
         min-height: 250px; /* Even smaller min-height for very small screens */
     }
 }
+
+@media (max-width: 480px) {
+  .movie-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .poster-img {
+    object-fit: contain;
+  }
+  
+  .movie-info {
+    padding: 0.5rem;
+  }
+
+}
