@@ -65,18 +65,18 @@ export const getMovieDetail    = (id) => request(`/movies/${id}/`);
 export const searchMovies      = (q)  => request(`/movies/?search=${encodeURIComponent(q)}`).then(arr);
 
 /* ── Favourites ───────────────────────── */
-export const fetchFavorites    = () => request("/favorites/");
-export const addFavorite       = (id) => request("/favorites/add/",          { method: "POST", body: { movie_id: id } });
-export const removeFavorite    = (id) => request(`/favorites/${id}/remove/`, { method: "DELETE" });
+export const fetchFavorites    = () => request("/movies/favorites/");
+export const addFavorite       = (id) => request("/movies/favorites/add/",          { method: "POST", body: { movie_id: id } });
+export const removeFavorite    = (id) => request(`/movies/favorites/${id}/remove/`, { method: "DELETE" });
 
 /* ── Watch Later ──────────────────────── */
-export const fetchWatchLater   = () => request("/watchlater/");
-export const addWatchLater     = (id) => request("/watchlater/add/",         { method: "POST", body: { movie_id: id } });
-export const removeWatchLater  = (id) => request(`/watchlater/${id}/`,       { method: "DELETE" });
+export const fetchWatchLater   = () => request("/movies/watchlater/");
+export const addWatchLater     = (id) => request("/movies/watchlater/add/",         { method: "POST", body: { movie_id: id } });
+export const removeWatchLater  = (id) => request(`/movies/watchlater/${id}/`,       { method: "DELETE" });
 
 /* ── Progress ─────────────────────────── */
-export const fetchProgress     = () => request("/progress/");
-export const updateProgress    = (id, pos) => request("/progress/update/",   { method: "POST", body: { movie_id: id, position: pos } });
+export const fetchProgress     = () => request("/movies/progress/");
+export const updateProgress    = (id, pos) => request("/movies/progress/update/",   { method: "POST", body: { movie_id: id, position: pos } });
 export const incrementView     = (id) => request(`/increment-view/${id}/`,   { method: "POST" });
 
 /* ── Comments ─────────────────────────── */
