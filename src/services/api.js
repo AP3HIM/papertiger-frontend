@@ -117,13 +117,14 @@ export async function loginUser(username, password) {
 }
 
 export async function registerUser(username, password, email) {
-  const r = await fetch(`${BASE_API_URL}/register/`, {
+  const r = await fetch(`${BASE_API_URL}/accounts/register/`, {  // ✅ this is correct
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password, email }),
   });
   if (!r.ok) throw new Error(await r.text());
-  return r.status; // 201 or 200
+  return r.status;
 }
+
 
 export const logoutUser = clearAuth;
