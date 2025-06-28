@@ -40,7 +40,7 @@ export default function MovieCard({ movie }) {
   const rtT = rt ? `${Math.floor(rt / 60)}h ${rt % 60}m` : "N/A";
 
   return (
-    <Link to={`/movies/${movieId}`} className="movie-link">
+    <Link to={`/movies/${movie.slug}`} className="movie-link">
       <div className="movie-card">
         {pct > 0 && (
           <div className="progress-track">
