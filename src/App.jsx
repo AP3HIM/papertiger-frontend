@@ -7,7 +7,7 @@ if (GA_ID) {
   ReactGA.send("pageview");
 }
 
-
+// import { HelmetProvider } from 'react-helmet-async';
 
 import "./css/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -52,7 +52,7 @@ function RoutesWithNav() {
           />
           <Route path="/home" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/movies/:id" element={<MovieDetail />} />
+          <Route path="/movies/:slug" element={<MovieDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/genre/:genreName" element={<GenrePage />} />
