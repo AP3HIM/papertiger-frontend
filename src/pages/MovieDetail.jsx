@@ -9,7 +9,7 @@ import CommentsSection from "../components/CommentsSection";
 import "../css/MovieDetail.css";
 
 export default function MovieDetail() {
-  const { id } = useParams();
+  const { slug } = useParams();
 
   /** local state */
   const [movie,        setMovie]        = useState(null);   // ← you lost this line
@@ -23,10 +23,10 @@ export default function MovieDetail() {
   useEffect(() => {
     const run = async () => {
       try {
-        const data = await getMovieDetail(id);
+        const data = await getMovieDetail(slug);
         setMovie(data);
 
-        incrementView(id).catch(() => {});          // fire-and-forget
+        incrementView(slug).catch(() => {});          // fire-and-forget
 
         // pick 6 titles from the same genre (exclude current)
         setRelated(
