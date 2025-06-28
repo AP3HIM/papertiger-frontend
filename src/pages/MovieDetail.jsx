@@ -46,7 +46,7 @@ export default function MovieDetail() {
       const vid = document.querySelector("video");
       if (vid) { vid.pause(); vid.currentTime = 0; }
     };
-  }, [id, movies]);
+  }, [slug, movies]);
 
   /***** render ************************************************************/
   if (err)     return <p className="error-message">{err}</p>;
