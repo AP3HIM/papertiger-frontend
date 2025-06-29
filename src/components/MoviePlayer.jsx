@@ -1,12 +1,9 @@
-// src/components/MoviePlayer.jsx
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import videojs from "video.js";
-import "video.js/dist/video-js.css";
 import ReactPlayer from "react-player";
-import { useMovieContext } from "../contexts/MovieContext";
-import "../css/MoviePlayer.css";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
+import { useMovieContext } from "../context/MovieContext";
 
 export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
@@ -105,6 +102,26 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       cleanupAndFallback();
     });
 
+    const handleKeyDown = (e) => {
+      if (!playerRef.current) return;
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (playerRef.current.paused()) {
+          playerRef.current.play();
+        } else {
+          playerRef.current.pause();
+        }
+      }
+
+      if (e.key === "f" || e.code === "KeyF") {
+        e.preventDefault();
+        playerRef.current.requestFullscreen();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       mountedRef.current = false;
       clearTimeout(fallbackTimeoutRef.current);
@@ -112,8 +129,37 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
         player.pause();
         player.dispose();
       }
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [url, movieId, useFallback, movieTitle]);
+
+  useEffect(() => {
+    const handleKeyDownFallback = (e) => {
+      if (!reactPlayerRef.current) return;
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        setReactPlaying((prev) => !prev);
+      }
+
+      if (e.key === "f" || e.code === "KeyF") {
+        e.preventDefault();
+        const container = document.fullscreenElement
+          ? document.exitFullscreen()
+          : reactPlayerRef.current.wrapper.requestFullscreen();
+      }
+    };
+
+    if (useFallback) {
+      document.addEventListener("keydown", handleKeyDownFallback);
+    }
+
+    return () => {
+      if (useFallback) {
+        document.removeEventListener("keydown", handleKeyDownFallback);
+      }
+    };
+  }, [useFallback]);
 
   function cleanupAndFallback() {
     try {
