@@ -54,6 +54,12 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       return;
     }
 
+    // Ensure the video element gets focus so keypresses work
+    setTimeout(() => {
+      const videoEl = videoRef.current;
+      if (videoEl) videoEl.focus();
+    }, 500);
+
     fallbackTimeoutRef.current = setTimeout(() => {
       if (!player.duration() || isNaN(player.duration())) {
         console.warn("Video.js did not load metadata — falling back");
@@ -120,7 +126,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       mountedRef.current = false;
@@ -129,9 +135,10 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
         player.pause();
         player.dispose();
       }
-      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [url, movieId, useFallback, movieTitle]);
+
 
   useEffect(() => {
     const handleKeyDownFallback = (e) => {
@@ -237,6 +244,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
           playsInline
+          tabIndex={0}  // ✅ Add this so it can be focused programmatically
           style={{ width: "100%", height: "100%" }}
         />
       </div>
