@@ -57,8 +57,11 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     // Ensure the video element gets focus so keypresses work
     setTimeout(() => {
       const videoEl = videoRef.current;
-      if (videoEl) videoEl.focus();
-    }, 500);
+      if (videoEl) {
+        videoEl.focus();
+        videoEl.click();  // 💥 This simulates a user click to enable key listeners
+      }
+    }, 1000);  // Slightly increased timeout to ensure player is mounted
 
     fallbackTimeoutRef.current = setTimeout(() => {
       if (!player.duration() || isNaN(player.duration())) {
@@ -244,7 +247,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
           playsInline
-          tabIndex={0}  // ✅ Add this so it can be focused programmatically
+          tabIndex={0}  // Add this so it can be focused programmatically
           style={{ width: "100%", height: "100%" }}
         />
       </div>
