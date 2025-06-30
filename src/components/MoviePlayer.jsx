@@ -46,13 +46,14 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
     playerRef.current = player;
 
-    try {
-      player.src({ type: "video/mp4", src: url });
-    } catch (err) {
-      console.error("Video load error:", err);
-      cleanupAndFallback();
-      return;
-    }
+    player.ready(() => {
+      try {
+        player.src({ type: "video/mp4", src: url });
+      } catch (err) {
+        console.error("Video load error:", err);
+        cleanupAndFallback();
+      }
+    });
 
     // Ensure the video element gets focus so keypresses work
     setTimeout(() => {
@@ -68,7 +69,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
         console.warn("Video.js did not load metadata — falling back");
         cleanupAndFallback();
       }
-    }, 4000);
+    }, 8000);
 
     player.on("loadedmetadata", () => {
       clearTimeout(fallbackTimeoutRef.current);
