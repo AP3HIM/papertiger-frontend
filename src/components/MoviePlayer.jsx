@@ -59,10 +59,13 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     setTimeout(() => {
       const videoEl = videoRef.current;
       if (videoEl) {
+        videoEl.setAttribute("tabindex", "0");  // Ensure focusable
         videoEl.focus();
-        videoEl.click();  // 💥 This simulates a user click to enable key listeners
+        videoEl.click();
+        console.log("Focused and clicked video element");
       }
-    }, 1000);  // Slightly increased timeout to ensure player is mounted
+    }, 1500);
+
 
     fallbackTimeoutRef.current = setTimeout(() => {
       if (!player.duration() || isNaN(player.duration())) {
@@ -243,7 +246,13 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
-      <div data-vjs-player style={{ width: "100%" }}>
+      <div 
+        data-vjs-player
+        style={{ width: "100%" }}
+        onClick={() => {
+          if (videoRef.current) videoRef.current.focus();
+        }}
+      >
         <video
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
