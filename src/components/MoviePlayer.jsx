@@ -240,6 +240,16 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       </div>
     );
   }
+  // 🔍 FINAL TEST TIP — keypress logger to confirm player is focused
+  useEffect(() => {
+    const logKey = (e) => {
+      console.log("🔑 Key pressed:", e.code);
+    };
+    window.addEventListener("keydown", logKey);
+    return () => window.removeEventListener("keydown", logKey);
+  }, []);
+
+  
 
   return (
     <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem", position: "relative" }}>
