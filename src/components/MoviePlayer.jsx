@@ -49,11 +49,22 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     player.ready(() => {
       try {
         player.src({ type: "video/mp4", src: url });
+
+        // Handle ?start=XX from URL
+        const params = new URLSearchParams(window.location.search);
+        const startParam = parseFloat(params.get("start"));
+        const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
+
+        if (!seekDoneRef.current && resumeTime > 2) {
+          player.currentTime(resumeTime);
+          seekDoneRef.current = true;
+        }
       } catch (err) {
         console.error("Video load error:", err);
         cleanupAndFallback();
       }
     });
+
 
     // Ensure the video element gets focus so keypresses work
     setTimeout(() => {
