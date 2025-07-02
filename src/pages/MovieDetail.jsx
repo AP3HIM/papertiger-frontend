@@ -56,7 +56,10 @@ export default function MovieDetail() {
     <div className="movie-detail-container">
       <div className="movie-left">
         <h2>{movie.title}</h2>
-        <MoviePlayer url={movie.video_url} movieId={movie.id} />
+        {movie.video_url && (
+          <MoviePlayer url={movie.video_url} movieId={movie.id} movieTitle={movie.title} />
+        )}
+        console.log("Rendering MoviePlayer for:", movie.title, movie.video_url);
         <div className="movie-meta">
           <p>{movie.year} • {movie.genre} • {movie.runtime_minutes} min</p>
           <p className="movie-description">{movie.description || movie.overview || "No description available."}</p>
