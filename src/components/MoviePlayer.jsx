@@ -3,7 +3,7 @@ import videojs from "video.js";
 import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
-import { useMovieContext } from "../context/MovieContext";
+import { useMovieContext } from "../contexts/MovieContext";
 
 export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
