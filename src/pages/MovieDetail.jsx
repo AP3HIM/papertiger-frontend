@@ -28,6 +28,9 @@ export default function MovieDetail() {
 
         incrementView(slug).catch(() => {});          // fire-and-forget
 
+        console.log("MOVIE DETAIL DATA:", data);
+
+
         // pick 6 titles from the same genre (exclude current)
         setRelated(
           movies
