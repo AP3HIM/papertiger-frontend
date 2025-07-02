@@ -4,6 +4,8 @@ import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
 import { useMovieContext } from "../contexts/MovieContext";
+import "../css/MoviePlayer.css"; // Adjust the path if needed
+
 
 export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
@@ -206,7 +208,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
   if (useFallback) {
     return (
-      <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem" }}>
+      <div className="movie-wrapper">
         <ReactPlayer
           ref={reactPlayerRef}
           url={url}
@@ -259,7 +261,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   // 🔍 FINAL TEST TIP — keypress logger to confirm player is focused
   useEffect(() => {
     const logKey = (e) => {
-      console.log(" Key pressed:", e.code);
+      console.log("🔑 Key pressed:", e.code);
     };
     window.addEventListener("keydown", logKey);
     return () => window.removeEventListener("keydown", logKey);
@@ -268,7 +270,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   
 
   return (
-    <div className="movie-wrapper" style={{ backgroundColor: "#000", padding: "0.5rem", position: "relative" }}>
+    <div className="movie-wrapper">
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
