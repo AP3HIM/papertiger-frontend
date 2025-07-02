@@ -24,7 +24,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   useEffect(() => {
     mountedRef.current = true;
 
-    if (!videoRef.current || !url || useFallback) return;
+    if (!videoRef.current || !url || useFallback || document.readyState !== "complete") return;
 
     const player = videojs(videoRef.current, {
       controls: true,
