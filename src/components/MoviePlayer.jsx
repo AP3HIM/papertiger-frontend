@@ -54,7 +54,15 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       } catch (err) {
         console.error("Video load error:", err);
         cleanupAndFallback();
+        return;
       }
+
+      player.one("play", () => {
+        setTimeout(() => {
+          if (player.controlBar) player.controlBar.show();
+          if (player.bigPlayButton) player.bigPlayButton.show();
+        }, 200);
+      });
     });
 
     player.on("loadedmetadata", () => {
