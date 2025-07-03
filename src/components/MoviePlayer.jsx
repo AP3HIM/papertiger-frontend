@@ -206,6 +206,18 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     if (mountedRef.current) setUseFallback(true);
   }
 
+    // If no video URL at all, show an error
+  if (!url || typeof url !== "string" || !url.startsWith("http")) {
+    return (
+      <div className="movie-wrapper">
+        <p className="error-message" style={{ color: "red", padding: "1rem" }}>
+           No video available for this movie.
+        </p>
+      </div>
+    );
+  }
+
+  // Fallback: ReactPlayer
   if (useFallback) {
     return (
       <div className="movie-wrapper">
@@ -258,23 +270,14 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       </div>
     );
   }
-  // 🔍 FINAL TEST TIP — keypress logger to confirm player is focused
-  useEffect(() => {
-    const logKey = (e) => {
-      console.log("🔑 Key pressed:", e.code);
-    };
-    window.addEventListener("keydown", logKey);
-    return () => window.removeEventListener("keydown", logKey);
-  }, []);
 
-  
-
+  // Default Video.js player
   return (
     <div className="movie-wrapper">
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
-      <div 
+      <div
         data-vjs-player
         style={{ width: "100%" }}
         onClick={() => {
@@ -285,7 +288,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
           playsInline
-          tabIndex={0}  // Add this so it can be focused programmatically
+          tabIndex={0}
           style={{ width: "100%", height: "100%" }}
         />
       </div>
