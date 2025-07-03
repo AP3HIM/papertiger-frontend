@@ -6,7 +6,6 @@ import ReactGA from "react-ga4";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MoviePlayer.css"; // Adjust the path if needed
 
-
 export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
@@ -24,7 +23,12 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   useEffect(() => {
     mountedRef.current = true;
 
-    if (!videoRef.current || !url || useFallback || document.readyState !== "complete") return;
+    if (!url || !url.startsWith("http")) return;
+    if (url.includes("archive.org")) {
+      setUseFallback(true);
+      return;
+    }
+    if (!videoRef.current || useFallback || document.readyState !== "complete") return;
 
     const player = videojs(videoRef.current, {
       controls: true,
@@ -47,67 +51,46 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     });
 
     playerRef.current = player;
+    player.src({ type: "video/mp4", src: url });
 
     player.ready(() => {
-      try {
-        player.src({ type: "video/mp4", src: url });
-      } catch (err) {
-        console.error("Video load error:", err);
-        cleanupAndFallback();
-        return;
-      }
-
       player.one("play", () => {
         setTimeout(() => {
-          if (player.controlBar) player.controlBar.show();
-          if (player.bigPlayButton) player.bigPlayButton.show();
+          player.controlBar?.show();
+          player.bigPlayButton?.show();
         }, 200);
       });
     });
 
     player.on("loadedmetadata", () => {
       clearTimeout(fallbackTimeoutRef.current);
-      
+
       const params = new URLSearchParams(window.location.search);
       const startParam = parseFloat(params.get("start"));
       const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
 
       if (!seekDoneRef.current && resumeTime > 2) {
-        console.log(` Seeking to ${resumeTime} seconds from ?start param or progress`);
         player.currentTime(resumeTime);
         seekDoneRef.current = true;
       }
     });
 
-
-
-    // Ensure the video element gets focus so keypresses work
     setTimeout(() => {
       const videoEl = videoRef.current;
       if (videoEl) {
-        videoEl.setAttribute("tabindex", "0");  // Ensure focusable
+        videoEl.setAttribute("tabindex", "0");
         videoEl.focus();
         videoEl.click();
-        console.log("Focused and clicked video element");
       }
     }, 1500);
 
-
     fallbackTimeoutRef.current = setTimeout(() => {
-      if (!player.duration() || isNaN(player.duration())) {
-        console.warn("Video.js did not load metadata — falling back");
+      const duration = player.duration();
+      if (!duration || isNaN(duration) || duration < 1) {
+        console.warn("Video.js metadata failed — falling back to ReactPlayer.");
         cleanupAndFallback();
       }
-    }, 8000);
-
-    player.on("loadedmetadata", () => {
-      clearTimeout(fallbackTimeoutRef.current);
-      const start = progress[movieId] || 0;
-      if (!seekDoneRef.current && start > 2) {
-        player.currentTime(start);
-        seekDoneRef.current = true;
-      }
-    });
+    }, 6000);
 
     player.on("timeupdate", () => {
       const currentTime = player.currentTime();
@@ -119,11 +102,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
     player.on("play", () => {
       if (!hasTrackedPlayRef.current) {
-        ReactGA.event({
-          category: "Video",
-          action: "Play",
-          label: movieTitle,
-        });
+        ReactGA.event({ category: "Video", action: "Play", label: movieTitle });
         hasTrackedPlayRef.current = true;
       }
     });
@@ -146,11 +125,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
       if (e.code === "Space") {
         e.preventDefault();
-        if (playerRef.current.paused()) {
-          playerRef.current.play();
-        } else {
-          playerRef.current.pause();
-        }
+        playerRef.current.paused() ? playerRef.current.play() : playerRef.current.pause();
       }
 
       if (e.key === "f" || e.code === "KeyF") {
@@ -164,14 +139,17 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     return () => {
       mountedRef.current = false;
       clearTimeout(fallbackTimeoutRef.current);
-      if (player && !player.isDisposed()) {
-        player.pause();
-        player.dispose();
+      try {
+        if (player && !player.isDisposed?.()) {
+          player.pause();
+          player.dispose();
+        }
+      } catch (err) {
+        console.warn("Dispose error:", err);
       }
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [url, movieId, useFallback, movieTitle]);
-
 
   useEffect(() => {
     const handleKeyDownFallback = (e) => {
@@ -184,7 +162,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
       if (e.key === "f" || e.code === "KeyF") {
         e.preventDefault();
-        const container = document.fullscreenElement
+        document.fullscreenElement
           ? document.exitFullscreen()
           : reactPlayerRef.current.wrapper.requestFullscreen();
       }
@@ -203,7 +181,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
   function cleanupAndFallback() {
     try {
-      if (playerRef.current && !playerRef.current.isDisposed()) {
+      if (playerRef.current && !playerRef.current.isDisposed?.()) {
         playerRef.current.pause();
         playerRef.current.dispose();
       }
@@ -214,21 +192,19 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     if (mountedRef.current) setUseFallback(true);
   }
 
-    // If no video URL at all, show an error
   if (!url || typeof url !== "string" || !url.startsWith("http")) {
     return (
       <div className="movie-wrapper">
         <p className="error-message" style={{ color: "red", padding: "1rem" }}>
-           No video available for this movie.
+          No video available for this movie.
         </p>
       </div>
     );
   }
 
-  // Fallback: ReactPlayer
   if (useFallback) {
     return (
-      <div className="movie-wrapper">
+      <div className="movie-wrapper" style={{ position: "relative", overflow: "hidden" }}>
         <ReactPlayer
           ref={reactPlayerRef}
           url={url}
@@ -259,11 +235,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           }}
           onStart={() => {
             if (!hasTrackedPlayRef.current) {
-              ReactGA.event({
-                category: "Video",
-                action: "Play",
-                label: movieTitle,
-              });
+              ReactGA.event({ category: "Video", action: "Play", label: movieTitle });
               hasTrackedPlayRef.current = true;
             }
           }}
@@ -279,7 +251,6 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     );
   }
 
-  // Default Video.js player
   return (
     <div className="movie-wrapper">
       <div className="video-watermark">
@@ -288,9 +259,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       <div
         data-vjs-player
         style={{ width: "100%" }}
-        onClick={() => {
-          if (videoRef.current) videoRef.current.focus();
-        }}
+        onClick={() => videoRef.current?.focus()}
       >
         <video
           ref={videoRef}
