@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useMovieContext } from "../contexts/MovieContext";
 import MovieCard from "../components/MovieCard";
 import "../css/GenrePage.css";
+import SEOGenre from "../components/SEOGenre";
 
 const normalize = (str = "") =>
   str.trim().toLowerCase().replace(/[\s\-]+/g, "");
@@ -24,7 +25,7 @@ export default function GenrePage() {
     );
 
     setGenreMovies(matched);
-    setCurrentPage(1); // Reset on genre change
+    setCurrentPage(1);
     document.title = `${genreName} Movies – Paper Tiger Cinema`;
   }, [genreName, movies]);
 
@@ -39,25 +40,28 @@ export default function GenrePage() {
   const pageMovies = genreMovies.slice(start, end);
 
   return (
-    <div className="genre-page-container">
-      <h1 className="genre-title">{genreName} Movies</h1>
-      <div className="movies-grid">
-        {pageMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+    <>
+      <SEOGenre genre={genreName} />
+      <div className="genre-page-container">
+        <h1 className="genre-title">{genreName} Movies</h1>
+        <div className="movies-grid">
+          {pageMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
 
-      <div className="pagination-controls">
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i}
-            className={`page-btn ${i + 1 === currentPage ? "active" : ""}`}
-            onClick={() => setCurrentPage(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
+        <div className="pagination-controls">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              className={`page-btn ${i + 1 === currentPage ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
