@@ -60,37 +60,43 @@ export default function MovieDetail() {
   return (
     <>
       <Helmet>
-        <title>{movie.title} ({movie.year}) | Paper Tiger Cinema</title>
-        <meta name="description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
-        <link rel="canonical" href={`https://papertigercinema.com/movies/${movie.slug}`} />
+        <title>
+          {movie?.title ? `${movie.title} (${movie.year}) | Paper Tiger Cinema` : "Loading... | Paper Tiger Cinema"}
+        </title>
 
-        {/* Open Graph / Facebook */}
-        <meta property="og:title" content={`${movie.title} (${movie.year})`} />
-        <meta property="og:description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
-        <meta property="og:image" content={movie.thumbnail_url} />
-        <meta property="og:url" content={`https://papertigercinema.com/movies/${movie.slug}`} />
-        <meta property="og:type" content="video.movie" />
+        {movie && (
+          <>
+            <meta name="description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
+            <link rel="canonical" href={`https://papertigercinema.com/movies/${movie.slug}`} />
 
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${movie.title} (${movie.year})`} />
-        <meta name="twitter:description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
-        <meta name="twitter:image" content={movie.thumbnail_url} />
+            {/* Open Graph / Facebook */}
+            <meta property="og:title" content={`${movie.title} (${movie.year})`} />
+            <meta property="og:description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
+            <meta property="og:image" content={movie.thumbnail_url} />
+            <meta property="og:url" content={`https://papertigercinema.com/movies/${movie.slug}`} />
+            <meta property="og:type" content="video.movie" />
 
-        {/* Schema.org JSON-LD */}
-        <script type="application/ld+json">{`
-          {
-            "@context": "https://schema.org",
-            "@type": "Movie",
-            "name": "${movie.title}",
-            "description": "${movie.overview?.slice(0, 300)}",
-            "datePublished": "${movie.year}-01-01",
-            "genre": "${movie.genre}",
-            "image": "${movie.thumbnail_url}",
-            "url": "https://papertigercinema.com/movies/${movie.slug}"
-          }
-        `}</script>
+            {/* Twitter */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={`${movie.title} (${movie.year})`} />
+            <meta name="twitter:description" content={movie.overview?.slice(0, 160) || "Watch this classic movie online free."} />
+            <meta name="twitter:image" content={movie.thumbnail_url} />
+
+            {/* Schema.org JSON-LD */}
+            <script type="application/ld+json">{JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Movie",
+              name: movie.title,
+              description: movie.overview?.slice(0, 300),
+              datePublished: `${movie.year}-01-01`,
+              genre: movie.genre,
+              image: movie.thumbnail_url,
+              url: `https://papertigercinema.com/movies/${movie.slug}`,
+            })}</script>
+          </>
+        )}
       </Helmet>
+
 
       <div className="movie-detail-container">
         <div className="movie-left">
