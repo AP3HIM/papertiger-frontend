@@ -7,7 +7,7 @@ if (GA_ID) {
   ReactGA.send("pageview");
 }
 
-// import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 
 import "./css/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -77,10 +77,12 @@ function RoutesWithNav() {
 
 export default function App() {
   return (
-    <Router>
-      <MovieProvider>
-        <RoutesWithNav />
-      </MovieProvider>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <MovieProvider>
+          <RoutesWithNav />
+        </MovieProvider>
+      </Router>
+    </HelmetProvider>
   );
 }
