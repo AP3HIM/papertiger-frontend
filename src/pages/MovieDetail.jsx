@@ -5,7 +5,7 @@ import MoviePlayer from "../components/MoviePlayer";
 import { useMovieContext } from "../contexts/MovieContext";
 import MovieCard from "../components/MovieCard";
 import CommentsSection from "../components/CommentsSection";
-import SEOMovie from "../seo/SEOMovie";
+import SEOMovie from "../components/SEOMovie";
 import "../css/MovieDetail.css";
 
 export default function MovieDetail() {
