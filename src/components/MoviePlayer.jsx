@@ -225,13 +225,31 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
             const startParam = parseFloat(params.get("start"));
             const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
 
-            
             if (!seekDoneRef.current && resumeTime > 2) {
-              reactPlayerRef.current.seekTo(resumeTime, "seconds");
-              seekDoneRef.current = true;
-              setTimeout(() => setReactPlaying(true), 0);
+              let retries = 0;
+              const trySeek = () => {
+                if (!reactPlayerRef.current) return;
+
+                reactPlayerRef.current.seekTo(resumeTime, "seconds");
+
+                setTimeout(() => {
+                  const el = reactPlayerRef.current.getInternalPlayer();
+                  const currentTime = el?.currentTime?.() || 0;
+
+                  if (Math.abs(currentTime - resumeTime) > 2 && retries < 5) {
+                    retries += 1;
+                    trySeek();
+                  } else {
+                    seekDoneRef.current = true;
+                    setReactPlaying(true);
+                  }
+                }, 1000);
+              };
+
+              trySeek();
             }
           }}
+
           onProgress={({ playedSeconds }) => {
             if (playedSeconds - throttleRef.current > 15) {
               throttleRef.current = playedSeconds;
