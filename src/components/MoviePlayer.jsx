@@ -70,10 +70,35 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
 
       if (!seekDoneRef.current && resumeTime > 2) {
-        player.currentTime(resumeTime);
-        seekDoneRef.current = true;
+        let attempts = 0;
+
+        const trySeek = () => {
+          const duration = player.duration();
+          if (!duration || isNaN(duration)) {
+            console.warn("Duration not ready yet...");
+            return;
+          }
+
+          console.log(`Trying to seek to ${resumeTime}s... (attempt ${attempts + 1})`);
+          player.currentTime(resumeTime);
+
+          setTimeout(() => {
+            const currentTime = player.currentTime();
+            if (Math.abs(currentTime - resumeTime) < 2 || attempts >= 5) {
+              console.log(`Seek successful at ${currentTime.toFixed(1)}s`);
+              seekDoneRef.current = true;
+            } else {
+              attempts++;
+              console.warn(`Seek failed (at ${currentTime}s), retrying...`);
+              trySeek();
+            }
+          }, 1000);
+        };
+
+        trySeek();
       }
     });
+
 
     setTimeout(() => {
       const videoEl = videoRef.current;
