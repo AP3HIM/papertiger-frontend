@@ -221,11 +221,16 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
             },
           }}
           onReady={() => {
-            if (seekDoneRef.current) return;
-            const start = progress[movieId] || 0;
-            if (start > 2) reactPlayerRef.current.seekTo(start, "seconds");
-            seekDoneRef.current = true;
-            setTimeout(() => setReactPlaying(true), 0);
+            const params = new URLSearchParams(window.location.search);
+            const startParam = parseFloat(params.get("start"));
+            const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
+
+            
+            if (!seekDoneRef.current && resumeTime > 2) {
+              reactPlayerRef.current.seekTo(resumeTime, "seconds");
+              seekDoneRef.current = true;
+              setTimeout(() => setReactPlaying(true), 0);
+            }
           }}
           onProgress={({ playedSeconds }) => {
             if (playedSeconds - throttleRef.current > 15) {
