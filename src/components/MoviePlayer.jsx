@@ -282,13 +282,16 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
           onProgress={({ playedSeconds }) => {
             if (
-              typeof updateProgress === 'function' &&
+              typeof updateProgress === "function" &&
               Math.abs(playedSeconds - throttleRef.current) > 15
             ) {
               throttleRef.current = playedSeconds;
               updateProgress(movieId, Math.floor(playedSeconds));
+            } else if (typeof updateProgress !== "function") {
+              console.warn("[ReactPlayer] updateProgress is not a function", updateProgress);
             }
           }}
+
 
           onStart={() => {
             if (!hasTrackedPlayRef.current) {
