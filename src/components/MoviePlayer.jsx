@@ -21,7 +21,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const [reactPlaying, setReactPlaying] = useState(false);
 
   if (typeof updateProgress !== "function") {
-    console.warn("updateProgress is not a function!");
+    console.warn(" [MoviePlayer] updateProgress is not a function!");
   }
 
 
@@ -282,13 +282,14 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
           onProgress={({ playedSeconds }) => {
             if (
-              typeof updateProgress === "function" &&
+              typeof updateProgress === 'function' &&
               Math.abs(playedSeconds - throttleRef.current) > 15
             ) {
               throttleRef.current = playedSeconds;
               updateProgress(movieId, Math.floor(playedSeconds));
             }
           }}
+
           onStart={() => {
             if (!hasTrackedPlayRef.current) {
               ReactGA.event({ category: "Video", action: "Play", label: movieTitle });
