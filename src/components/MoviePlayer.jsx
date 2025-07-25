@@ -276,7 +276,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           }}
 
           onProgress={({ playedSeconds }) => {
-            if (playedSeconds - throttleRef.current > 15) {
+            if (Math.abs(playedSeconds - throttleRef.current) > 15) {
               throttleRef.current = playedSeconds;
               updateProgress(movieId, Math.floor(playedSeconds));
             }
