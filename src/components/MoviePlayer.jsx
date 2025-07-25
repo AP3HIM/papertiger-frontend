@@ -20,6 +20,11 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const [useFallback, setUseFallback] = useState(false);
   const [reactPlaying, setReactPlaying] = useState(false);
 
+  if (typeof updateProgress !== "function") {
+    console.warn("updateProgress is not a function!");
+  }
+
+
   useEffect(() => {
     mountedRef.current = true;
 
@@ -276,7 +281,10 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           }}
 
           onProgress={({ playedSeconds }) => {
-            if (Math.abs(playedSeconds - throttleRef.current) > 15) {
+            if (
+              typeof updateProgress === "function" &&
+              Math.abs(playedSeconds - throttleRef.current) > 15
+            ) {
               throttleRef.current = playedSeconds;
               updateProgress(movieId, Math.floor(playedSeconds));
             }
