@@ -1,10 +1,11 @@
+// ... top imports stay the same
 import React, { useEffect, useRef, useState } from "react";
 import videojs from "video.js";
 import ReactPlayer from "react-player";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
 import { useMovieContext } from "../contexts/MovieContext";
-import "../css/MoviePlayer.css"; // Adjust the path if needed
+import "../css/MoviePlayer.css";
 
 export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const videoRef = useRef(null);
@@ -20,10 +21,17 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
   const [useFallback, setUseFallback] = useState(false);
   const [reactPlaying, setReactPlaying] = useState(false);
 
-  if (typeof updateProgress !== "function") {
-    console.warn(" [MoviePlayer] updateProgress is not a function!");
-  }
+  // 🔒 safe function reference to avoid stale or undefined
+  const updateProgressRef = useRef(updateProgress);
+  useEffect(() => {
+    updateProgressRef.current = updateProgress;
+  }, [updateProgress]);
 
+  const safeUpdateProgress = (...args) => {
+    if (typeof updateProgressRef.current === "function") {
+      updateProgressRef.current(...args);
+    }
+  };
 
   useEffect(() => {
     mountedRef.current = true;
@@ -69,7 +77,6 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
     player.on("loadedmetadata", () => {
       clearTimeout(fallbackTimeoutRef.current);
-
       const params = new URLSearchParams(window.location.search);
       const startParam = parseFloat(params.get("start"));
       const resumeTime = !isNaN(startParam) ? startParam : (progress[movieId] || 0);
@@ -79,22 +86,15 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
         const trySeek = () => {
           const duration = player.duration();
-          if (!duration || isNaN(duration)) {
-            console.warn("Duration not ready yet...");
-            return;
-          }
+          if (!duration || isNaN(duration)) return;
 
-          console.log(`Trying to seek to ${resumeTime}s... (attempt ${attempts + 1})`);
           player.currentTime(resumeTime);
-
           setTimeout(() => {
             const currentTime = player.currentTime();
             if (Math.abs(currentTime - resumeTime) < 2 || attempts >= 5) {
-              console.log(`Seek successful at ${currentTime.toFixed(1)}s`);
               seekDoneRef.current = true;
             } else {
               attempts++;
-              console.warn(`Seek failed (at ${currentTime}s), retrying...`);
               trySeek();
             }
           }, 1000);
@@ -103,7 +103,6 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
         trySeek();
       }
     });
-
 
     setTimeout(() => {
       const videoEl = videoRef.current;
@@ -117,7 +116,6 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     fallbackTimeoutRef.current = setTimeout(() => {
       const duration = player.duration();
       if (!duration || isNaN(duration) || duration < 1) {
-        console.warn("Video.js metadata failed — falling back to ReactPlayer.");
         cleanupAndFallback();
       }
     }, 6000);
@@ -126,7 +124,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       const currentTime = player.currentTime();
       if (currentTime - throttleRef.current > 15) {
         throttleRef.current = currentTime;
-        updateProgress(movieId, Math.floor(currentTime));
+        safeUpdateProgress(movieId, Math.floor(currentTime));
       }
     });
 
@@ -142,11 +140,10 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
     });
 
     player.on("ended", () => {
-      updateProgress(movieId, 0);
+      safeUpdateProgress(movieId, 0);
     });
 
-    player.on("error", (e) => {
-      console.error("Video.js error:", e);
+    player.on("error", () => {
       cleanupAndFallback();
     });
 
@@ -215,9 +212,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
         playerRef.current.pause();
         playerRef.current.dispose();
       }
-    } catch (err) {
-      console.warn("Failed to dispose player:", err);
-    }
+    } catch {}
     toast.warn("Video failed to load properly. Try refreshing the page.");
     if (mountedRef.current) setUseFallback(true);
   }
@@ -279,20 +274,12 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
               trySeek();
             }
           }}
-
           onProgress={({ playedSeconds }) => {
-            if (
-              typeof updateProgress === "function" &&
-              Math.abs(playedSeconds - throttleRef.current) > 15
-            ) {
+            if (Math.abs(playedSeconds - throttleRef.current) > 15) {
               throttleRef.current = playedSeconds;
-              updateProgress(movieId, Math.floor(playedSeconds));
-            } else if (typeof updateProgress !== "function") {
-              console.warn("[ReactPlayer] updateProgress is not a function", updateProgress);
+              safeUpdateProgress(movieId, Math.floor(playedSeconds));
             }
           }}
-
-
           onStart={() => {
             if (!hasTrackedPlayRef.current) {
               ReactGA.event({ category: "Video", action: "Play", label: movieTitle });
@@ -304,7 +291,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
           }}
           onEnded={() => {
             setReactPlaying(false);
-            updateProgress(movieId, 0);
+            safeUpdateProgress(movieId, 0);
           }}
         />
       </div>
@@ -316,11 +303,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
       <div className="video-watermark">
         <img src="https://cdn.papertigercinema.com/static/ptc_lgo.png" alt="PTC" />
       </div>
-      <div
-        data-vjs-player
-        style={{ width: "100%" }}
-        onClick={() => videoRef.current?.focus()}
-      >
+      <div data-vjs-player style={{ width: "100%" }} onClick={() => videoRef.current?.focus()}>
         <video
           ref={videoRef}
           className="video-js vjs-skin-city vjs-big-play-centered"
