@@ -252,6 +252,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
             if (!seekDoneRef.current && resumeTime > 2) {
               let retries = 0;
+
               const trySeek = () => {
                 if (!reactPlayerRef.current) return;
 
@@ -259,7 +260,17 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
 
                 setTimeout(() => {
                   const el = reactPlayerRef.current.getInternalPlayer();
-                  const currentTime = el?.currentTime?.() || 0;
+                  let currentTime = 0;
+
+                  try {
+                    if (typeof el?.currentTime === "function") {
+                      currentTime = el.currentTime();
+                    } else if (typeof el?.currentTime === "number") {
+                      currentTime = el.currentTime;
+                    }
+                  } catch (err) {
+                    console.warn("Error getting currentTime from ReactPlayer:", err);
+                  }
 
                   if (Math.abs(currentTime - resumeTime) > 2 && retries < 5) {
                     retries += 1;
@@ -274,6 +285,7 @@ export default function MoviePlayer({ url, movieId, movieTitle = "Unknown" }) {
               trySeek();
             }
           }}
+
           onProgress={({ playedSeconds }) => {
             if (Math.abs(playedSeconds - throttleRef.current) > 15) {
               throttleRef.current = playedSeconds;
