@@ -11,6 +11,7 @@ export default defineConfig({
         main: 'index.html',
       },
     },
+    sourcemap: true
   },
   publicDir: 'public',
 })
