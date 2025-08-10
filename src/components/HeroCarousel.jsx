@@ -141,7 +141,7 @@ const HeroCarousel = ({
                   <p className="hero-movie-overview">
                     {movie.overview || `${movie.genre || "Unknown Genre"} ${movie.year || ""}`}
                   </p>
-                  <Link to={`/movies/${movie.id}`} className="hero-more-info-btn">
+                  <Link to={`/movies/${movie.slug}`} className="hero-more-info-btn">
                     Watch Now
                   </Link>
                 </div>
