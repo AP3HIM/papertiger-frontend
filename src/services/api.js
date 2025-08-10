@@ -61,7 +61,7 @@ const arr = (d) => (Array.isArray(d)
 /* ── Movies ───────────────────────────── */
 export const getMovies         = () => request("/movies/").then(arr);
 export const getFeaturedMovies = () => request("/movies/?is_featured=true&page_size=100").then(arr);
-export const getMovieDetail    = (id) => request(`/movies/${id}/`);
+export const getMovieDetail = (slug) => request(`/movies/${slug}/`);
 export const searchMovies      = (q)  => request(`/movies/?search=${encodeURIComponent(q)}`).then(arr);
 
 /* ── Favourites ───────────────────────── */
@@ -77,11 +77,11 @@ export const removeWatchLater  = (id) => request(`/movies/watchlater/${id}/`,   
 /* ── Progress ─────────────────────────── */
 export const fetchProgress     = () => request("/movies/progress/");
 export const updateProgress    = (id, pos) => request("/movies/progress/update/",   { method: "POST", body: { movie_id: id, position: pos } });
-export const incrementView     = (id) => request(`/increment-view/${id}/`,   { method: "POST" });
+export const incrementView = (slug) => request(`/increment-view/${slug}/`, { method: "POST" });
 
 /* ── Comments ─────────────────────────── */
-export const fetchComments = (id) =>
-  request(`/movies/${id}/comments/`).then(arr);
+
+export const fetchComments = (slug) => request(`/movies/${slug}/comments/`).then(arr);
 
 /**
  * POST a new comment (auth required)
@@ -89,17 +89,15 @@ export const fetchComments = (id) =>
  * @param {string} text comment body
  * @param {number|null} rating 1-5 or null
  */
-export async function postComment(id, text, rating = null) {
-  const token = getAccess();                          // grab the stored JWT
-  console.log("Posting comment with token:", token);  // <-- handy debug line
-  return request(`/movies/${id}/comments/`, {
+export async function postComment(slug, text, rating = null) {
+  return request(`/movies/${slug}/comments/`, {
     method: "POST",
     body:   { text, rating },
   });
 }
 
-export const deleteComment = (cid) => {
-  return request(`/comments/${cid}/`, { method: "DELETE" });
+export const deleteComment = (cslug) => {
+  return request(`/comments/${cslug}/`, { method: "DELETE" });
 };
 /* ── Auth helpers ─────────────────────── */
 export async function loginUser(username, password) {
@@ -117,7 +115,7 @@ export async function loginUser(username, password) {
 }
 
 export async function registerUser(username, password, email) {
-  const r = await fetch(`${BASE_API_URL}/accounts/register/`, {  // ✅ this is correct
+  const r = await fetch(`${BASE_API_URL}/accounts/register/`, {  //  this is correct
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password, email }),
