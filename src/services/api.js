@@ -77,7 +77,6 @@ export const removeWatchLater  = (id) => request(`/movies/watchlater/${id}/`,   
 /* ── Progress ─────────────────────────── */
 export const fetchProgress     = () => request("/movies/progress/");
 export const updateProgress    = (id, pos) => request("/movies/progress/update/",   { method: "POST", body: { movie_id: id, position: pos } });
-export const incrementView = (slug) => request(`/increment-view/${slug}/`, { method: "POST" });
 
 /* ── Comments ─────────────────────────── */
 
