@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getMovieDetail, incrementView } from "../services/api";
+import { getMovieDetail } from "../services/api";
 import MoviePlayer from "../components/MoviePlayer";
 import { useMovieContext } from "../contexts/MovieContext";
 import MovieCard from "../components/MovieCard";
@@ -20,7 +20,6 @@ export default function MovieDetail() {
       try {
         const data = await getMovieDetail(slug);
         setMovie(data);
-        incrementView(slug).catch(() => {});
         setRelated(
           movies.filter((m) => m.genre === data.genre && m.id !== data.id).slice(0, 6)
         );
