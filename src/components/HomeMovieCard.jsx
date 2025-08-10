@@ -5,7 +5,7 @@ import placerholder from "../assets/placerholder_thumbnail.jpg";
 
 export default function HomeMovieCard({ movie }) {
   return (
-    <Link to={`/movies/${movie.id}`} className="home-card">
+    <Link to={`/movies/${movie.slug}`} className="home-card">
       <img
         src={movie.thumbnail_url?.trim() ? movie.thumbnail_url : placerholder}
         alt={movie.title}
