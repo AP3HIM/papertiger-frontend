@@ -56,7 +56,7 @@ export default function MovieDetail() {
             <p>{movie.year} • {movie.genre} • {movie.runtime_minutes} min</p>
             <p className="movie-description">{movie.description || movie.overview || "No description available."}</p>
           </div>
-          <CommentsSection movieId={movie.id} />
+          <CommentsSection movieSlug={movie.slug} />
         </div>
 
         <aside className="movie-right">
