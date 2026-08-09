@@ -1,0 +1,72 @@
+.genre-page-container {
+  padding: 2rem;
+  /*background-color: #0d0d0d; */
+  color: white;
+  min-height: 100vh;
+}
+
+.genre-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--accent-orange);
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));  /* set a min width */
+  gap: 1rem;
+  /* justify-items: center; */
+  margin-top: 1rem;
+}
+
+.loading-message,
+.error-message,
+.no-results-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  margin: 0.25rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #222;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.page-btn.active {
+  background-color: orange;
+}
+
+
+/* Alternative: fixed 6-per-row on large screens */
+@media (min-width: 1200px) {
+  .movies-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .movies-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

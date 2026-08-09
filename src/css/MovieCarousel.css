@@ -1,0 +1,74 @@
+/* src/css/MovieCarousel.css */
+
+.movie-carousel-container {
+  margin-bottom: 1.5rem; /* mb-10 */
+  padding-left: 0.5rem; /* px-4 */
+  padding-right: 0.5rem; /* px-4 */
+}
+
+.movie-carousel-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  color: var(--accent-orange);
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.movie-swiper .swiper-slide {
+  /* This is to ensure the slide width matches your MovieCard width */
+  width: 180px;
+}
+
+/* Make arrows smaller and orange */
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #FFA500;          /* orange */
+  font-size: 1.5rem;       /* smaller arrow size */
+  width: 2.5rem;           /* adjust width for easier clicking */
+  height: 2.5rem;
+  top: 50% !important;     /* force vertical center */
+  transform: translateY(-50%) !important; /* vertical center */
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 1;
+  color: #FFB347;          /* lighter orange on hover */
+}
+
+/* If arrows are SVG backgrounds (default Swiper arrows), scale them down */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.5rem;       /* smaller arrow icons */
+}
+
+/* Optional: Slightly adjust horizontal position if needed */
+.swiper-button-prev {
+  left: 0.25rem;  /* nudge right */
+}
+
+.swiper-button-next {
+  right: 0.25rem; /* nudge left */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1024px) { /* Adjust breakpoints as needed for smaller screens */
+  .movie-carousel-container {
+    margin-bottom: 1.5rem;
+  }
+  .movie-carousel-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-swiper .swiper-slide {
+    width: 140px; /* Smaller card size for smaller screens */
+  }
+}
+
+/* You might need to add specific overrides for Swiper's default styles here if they conflict or aren't ideal */
+
